@@ -1,6 +1,8 @@
 <template>
   <section class="app-main">
-    <router-view :key="key"/>
+    <transition name="van-fade">
+      <router-view :key="key"/>
+    </transition>
   </section>
 </template>
 
