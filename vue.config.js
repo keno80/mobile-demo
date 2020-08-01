@@ -1,7 +1,11 @@
+const os = require('os')
+
+const interfaceStatus = os.networkInterfaces()[Object.keys(os.networkInterfaces())[0]]
+
 module.exports = {
   configureWebpack: {},
   devServer: {
-    public: '192.168.2.106:8080',
+    public: interfaceStatus[1].address + ':8080',
     disableHostCheck: true,
     proxy: {
       '^/api': {

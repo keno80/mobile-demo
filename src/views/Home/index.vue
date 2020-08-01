@@ -1,17 +1,41 @@
 <template>
   <div>
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item>1</van-swipe-item>
-      <van-swipe-item>2</van-swipe-item>
-      <van-swipe-item>3</van-swipe-item>
-      <van-swipe-item>4</van-swipe-item>
+      <van-swipe-item v-for="item in picList" :key="item.bannerId">
+        <img v-lazy="item.pic">
+      </van-swipe-item>
     </van-swipe>
   </div>
 </template>
 
 <script>
+  import home from "../../api/home";
+
   export default {
-    name: "index"
+    name: "index",
+    data() {
+      return {
+        picList: []
+      }
+    },
+    created() {
+      this.fetchData()
+    },
+    methods: {
+      fetchData() {
+        let type = 1
+        const agent = window.navigator.userAgent
+        if (agent.indexOf('iPhone') !== -1) {
+          type = 2
+        } else if (agent.indexOf('iPad') !== -1) {
+          type = 3
+        }
+        home.getBanner(type).then(res => {
+          this.picList = res.data.banners
+          console.log(this.picList);
+        })
+      }
+    }
   }
 </script>
 
@@ -20,11 +44,13 @@
     border-radius: 10px;
 
     .van-swipe-item {
-      color: #fff;
-      font-size: 20px;
-      line-height: 150px;
       text-align: center;
-      background-color: #39a9ed;
+
+      img {
+        width: 300px;
+        height: 160px;
+        vertical-align: middle;
+      }
     }
   }
 </style>
