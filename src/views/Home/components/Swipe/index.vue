@@ -46,7 +46,7 @@
 
       img {
         width: 300px;
-        height: 160px;
+        height: 130px;
         vertical-align: middle;
       }
     }
