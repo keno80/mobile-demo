@@ -18,7 +18,7 @@ export default {
       url: `/api/top/song`,
       method: 'get',
       params: {
-        type: 0
+        type: 7
       }
     })
   },

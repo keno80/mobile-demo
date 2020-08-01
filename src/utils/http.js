@@ -32,7 +32,7 @@ const ErrCodeMessage = (num) => {
 
 //创建axios实例
 const instance = axios.create({
-  timeout: 3000,
+  timeout: 30000,
   url: `/api`
 })
 
