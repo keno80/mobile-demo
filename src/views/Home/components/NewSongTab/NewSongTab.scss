@@ -1,0 +1,53 @@
+.newSongTitle {
+  text-align: center;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/deep/ .van-tabs--line .van-tabs__wrap {
+  height: 34px;
+}
+
+/deep/ .van-tabs--line {
+  .van-tabs__line {
+    background-color: #1989fa;
+  }
+}
+
+/deep/ .van-list {
+  height: 440px;
+  overflow-x: hidden;
+  min-height: 300px;
+
+  .van-cell {
+    padding: 7px 4px;
+  }
+}
+
+.songBlock {
+  display: inline-block;
+}
+
+.songPic {
+  width: 30px;
+  vertical-align: sub;
+  border-radius: 4px;
+}
+
+.songTitle {
+  margin: 0 0 0 10px;
+  display: inline-block;
+  vertical-align: top;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.songInfo {
+  margin: 0 0 0 10px;
+  vertical-align: top;
+  font-size: 10px;
+  color: #a0a0a0;
+  line-height: 0.5;
+}

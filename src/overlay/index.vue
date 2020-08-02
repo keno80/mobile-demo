@@ -1,6 +1,5 @@
 <template>
   <div class="main-container">
-    <nav-bar/>
     <app-main/>
     <tab-bar/>
   </div>

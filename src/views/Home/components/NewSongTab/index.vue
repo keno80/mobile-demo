@@ -9,7 +9,14 @@
                 finished-text="没有更多了"
                 @load="onLoad"
         >
-          <van-cell v-for="item in songList" :key="item.id" :title="item.name"/>
+          <van-cell v-for="item in songList" :key="item.id">
+            <img :src="item.album.picUrl" class="songPic">
+            <div class="songBlock">
+              <p class="songTitle">{{item.name}}</p>
+              <br/>
+              <p class="songInfo" v-for="artist in item.artists">{{artist.name}}  -  {{item.album.name}}</p>
+            </div>
+          </van-cell>
         </van-list>
       </van-tab>
     </van-tabs>
@@ -70,26 +77,5 @@
 </script>
 
 <style scoped lang="scss">
-  .newSongTitle {
-    text-align: center;
-    padding: 10px 0;
-    font-size: 14px;
-    font-weight: 700;
-  }
-
-  /deep/ .van-tabs--line .van-tabs__wrap {
-    height: 34px;
-  }
-
-  /deep/ .van-tabs--line {
-    .van-tabs__line {
-      background-color: #1989fa;
-    }
-  }
-
-  /deep/ .van-list {
-    height: 440px;
-    overflow-x: hidden;
-    min-height: 300px;
-  }
+  @import "NewSongTab";
 </style>
