@@ -11,7 +11,7 @@
         >
           <van-cell v-for="item in songList" :key="item.id">
             <img :src="item.album.picUrl" class="songPic">
-            <div class="songBlock">
+            <div class="songBlock" @click="showMusic(item.id)">
               <p class="songTitle">{{item.name}}</p>
               <br/>
               <div class="songInfo">{{item.artist}} - {{item.album.name}}</div>
@@ -20,6 +20,11 @@
         </van-list>
       </van-tab>
     </van-tabs>
+
+    <van-popup v-model="songShow" position="bottom" :style="{ height: '30%' }">
+      <audio :src="mp3Url" autoplay controls="controls"></audio>
+<!--      <audio src="http://m7.music.126.net/20200802211449/844efce3ea72d29d58210e4da7cfc656/ymusic/obj/w5zDlMODwrDDiGjCn8Ky/3421542178/739d/ef69/ffec/e05905e04d3d2a2a0f9ee169e3f23e44.flac" autoplay controls="controls"></audio>-->
+    </van-popup>
   </div>
 </template>
 
@@ -32,6 +37,7 @@
       return {
         loading: false,
         finished: false,
+        songShow: false,
         typeList: [
           {
             type: '全部',
@@ -55,15 +61,22 @@
           }
         ],
         songList: [],
+        allSong: [],
+        chSong: [],
+        jpSong: [],
+        krSong: [],
+        EuSong: [],
+        mp3Url: '',
         active: 0,
         songLength: 0,
+        type: 0,
       }
     },
     methods: {
       onLoad() {
         this.songLength = this.songLength + 20
         if (this.songList.length < 100) {
-          home.getNewSong().then(res => {
+          home.getNewSong(this.type).then(res => {
             this.songList = res.data.data
             this.songList.length = this.songLength
             this.loading = false
@@ -83,8 +96,37 @@
           this.finished = true
         }
       },
-      tabChange(name, title) {
-        console.log(name);
+      showMusic(id) {
+        console.log(id);
+        this.songShow = true
+        home.getMusicRealUrl(id).then(res => {
+          if (res.data.code === 200) {
+            this.mp3Url = res.data.data[0].url
+          }
+        })
+      },
+      tabChange(name) {
+        switch (name) {
+          case 0:
+            this.type = 0
+            break;
+          case 1:
+            this.type = 7
+            break
+          case 2:
+            this.type = 8
+            break
+          case 3:
+            this.type = 16
+            break
+          case 4:
+            this.type = 96
+            break
+          default:
+            this.type = 0
+        }
+        this.songList = []
+        this.onLoad()
       }
     }
   }

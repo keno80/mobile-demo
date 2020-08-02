@@ -18,8 +18,19 @@ export default {
       url: `/api/top/song`,
       method: 'get',
       params: {
-        type: 7
+        type,
       }
     })
   },
+
+  // 获取音乐实际地址
+  getMusicRealUrl(id) {
+    return axios({
+      url: `/api/song/url`,
+      method: 'get',
+      params: {
+        id
+      }
+    })
+  }
 }
