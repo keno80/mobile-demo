@@ -70,7 +70,6 @@
       },
       tabChange(name, title) {
         console.log(name);
-        console.log(title);
       }
     }
   }
