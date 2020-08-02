@@ -14,7 +14,7 @@
             <div class="songBlock">
               <p class="songTitle">{{item.name}}</p>
               <br/>
-              <p class="songInfo" v-for="artist in item.artists">{{artist.name}}  -  {{item.album.name}}</p>
+              <div class="songInfo">{{item.artist}} - {{item.album.name}}</div>
             </div>
           </van-cell>
         </van-list>
@@ -55,18 +55,33 @@
           }
         ],
         songList: [],
-        active: 0
+        active: 0,
+        songLength: 0,
       }
-    },
-    created() {
-      home.getNewSong().then(res => {
-        this.songList = res.data.data
-        console.log(this.songList);
-      })
     },
     methods: {
       onLoad() {
-
+        this.songLength = this.songLength + 20
+        if (this.songList.length < 100) {
+          home.getNewSong().then(res => {
+            this.songList = res.data.data
+            this.songList.length = this.songLength
+            this.loading = false
+            for (let i = 0; i < this.songList.length; i++) {
+              if (this.songList[i].artists.length > 1) {
+                let a = []
+                for (let j = 0; j < this.songList[i].artists.length; j++) {
+                  a.push(this.songList[i].artists[j].name)
+                  this.songList[i].artist = a.join('/')
+                }
+              } else {
+                this.songList[i].artist = this.songList[i].artists[0].name
+              }
+            }
+          })
+        } else {
+          this.finished = true
+        }
       },
       tabChange(name, title) {
         console.log(name);
