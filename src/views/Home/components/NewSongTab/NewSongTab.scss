@@ -37,6 +37,9 @@
 }
 
 .songTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin: 0 0 0 10px;
   display: inline-block;
   vertical-align: top;

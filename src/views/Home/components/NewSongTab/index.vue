@@ -23,7 +23,8 @@
 
     <van-popup v-model="songShow" position="bottom" :style="{ height: '30%' }">
       <audio :src="mp3Url" autoplay controls="controls"></audio>
-<!--      <audio src="http://m7.music.126.net/20200802211449/844efce3ea72d29d58210e4da7cfc656/ymusic/obj/w5zDlMODwrDDiGjCn8Ky/3421542178/739d/ef69/ffec/e05905e04d3d2a2a0f9ee169e3f23e44.flac" autoplay controls="controls"></audio>-->
+      <!--      <audio src="http://m7.music.126.net/20200802211449/844efce3ea72d29d58210e4da7cfc656/ymusic/obj/w5zDlMODwrDDiGjCn8Ky/3421542178/739d/ef69/ffec/e05905e04d3d2a2a0f9ee169e3f23e44.flac"-->
+      <!--             autoplay controls="controls"></audio>-->
     </van-popup>
   </div>
 </template>
