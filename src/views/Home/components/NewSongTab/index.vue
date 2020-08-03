@@ -10,7 +10,7 @@
                 @load="onLoad"
         >
           <van-cell v-for="item in songList" :key="item.id">
-            <img :src="item.album.picUrl" class="songPic">
+            <img v-lazy="item.album.picUrl" class="songPic">
             <div class="songBlock" @click="showMusic(item.id)">
               <p class="songTitle">{{item.name}}</p>
               <br/>
@@ -31,6 +31,7 @@
 
 <script>
   import home from "../../../../api/home";
+  import {mapState} from 'vuex'
 
   export default {
     name: "NewSongTab",
@@ -62,37 +63,38 @@
           }
         ],
         songList: [],
-        allSong: [],
-        chSong: [],
-        jpSong: [],
-        krSong: [],
-        EuSong: [],
         mp3Url: '',
         active: 0,
-        songLength: 0,
         type: 0,
       }
     },
+    computed: {
+      ...mapState({
+        AllNew: state => state.newSongList.AllNew,
+        NewCN: state => state.newSongList.NewCN,
+        NewJP: state => state.newSongList.NewJP,
+        NewKR: state => state.newSongList.NewKR,
+        NewEU: state => state.newSongList.NewEU,
+      })
+    },
     methods: {
-      onLoad() {
-        this.songLength = this.songLength + 20
+      async onLoad() {
         if (this.songList.length < 100) {
-          home.getNewSong(this.type).then(res => {
-            this.songList = res.data.data
-            this.songList.length = this.songLength
-            this.loading = false
-            for (let i = 0; i < this.songList.length; i++) {
-              if (this.songList[i].artists.length > 1) {
-                let a = []
-                for (let j = 0; j < this.songList[i].artists.length; j++) {
-                  a.push(this.songList[i].artists[j].name)
-                  this.songList[i].artist = a.join('/')
-                }
-              } else {
-                this.songList[i].artist = this.songList[i].artists[0].name
+
+          this.songList = await this.$store.dispatch('newSongList/getListData', this.type)
+
+          this.loading = false
+          for (let i = 0; i < this.songList.length; i++) {
+            if (this.songList[i].artists.length > 1) {
+              let a = []
+              for (let j = 0; j < this.songList[i].artists.length; j++) {
+                a.push(this.songList[i].artists[j].name)
+                this.songList[i].artist = a.join('/')
               }
+            } else {
+              this.songList[i].artist = this.songList[i].artists[0].name
             }
-          })
+          }
         } else {
           this.finished = true
         }
@@ -107,27 +109,49 @@
         })
       },
       tabChange(name) {
+        this.songList = []
         switch (name) {
           case 0:
-            this.type = 0
-            break;
+            if (this.AllNew.length > 0) {
+              this.songList = this.AllNew
+            } else {
+              this.type = 0
+              this.onLoad()
+            }
+            break
           case 1:
-            this.type = 7
+            if (this.NewCN.length > 0) {
+              this.songList = this.NewCN
+            } else {
+              this.type = 7
+              this.onLoad()
+            }
             break
           case 2:
-            this.type = 8
+            if (this.NewJP.length > 0) {
+              this.songList = this.NewJP
+            } else {
+              this.type = 8
+              this.onLoad()
+            }
             break
           case 3:
-            this.type = 16
+            if (this.NewKR.length > 0) {
+              this.songList = this.NewKR
+            } else {
+              this.type = 16
+              this.onLoad()
+            }
             break
           case 4:
-            this.type = 96
+            if (this.NewEU.length > 0) {
+              this.songList = this.NewEU
+            } else {
+              this.type = 96
+              this.onLoad()
+            }
             break
-          default:
-            this.type = 0
         }
-        this.songList = []
-        this.onLoad()
       }
     }
   }

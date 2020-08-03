@@ -30,7 +30,7 @@
         }
         home.getBanner(type).then(res => {
           this.picList = res.data.banners
-          console.log(this.picList);
+          // console.log(this.picList);
         })
       }
     }
