@@ -11,7 +11,7 @@
         >
           <van-cell v-for="item in songList" :key="item.id">
             <img v-lazy="item.album.picUrl" class="songPic">
-            <div class="songBlock" @click="showMusic(item.id)">
+            <div class="songBlock" @click="showMusic(item.id, item.album.blurPicUrl)">
               <p class="songTitle">{{item.name}}</p>
               <br/>
               <div class="songInfo">{{item.artist}} - {{item.album.name}}</div>
@@ -21,10 +21,11 @@
       </van-tab>
     </van-tabs>
 
-    <van-popup v-model="songShow" position="bottom" :style="{ height: '30%' }">
-      <audio :src="mp3Url" autoplay controls="controls"></audio>
-      <!--      <audio src="http://m7.music.126.net/20200802211449/844efce3ea72d29d58210e4da7cfc656/ymusic/obj/w5zDlMODwrDDiGjCn8Ky/3421542178/739d/ef69/ffec/e05905e04d3d2a2a0f9ee169e3f23e44.flac"-->
-      <!--             autoplay controls="controls"></audio>-->
+    <van-popup v-model="songShow" position="bottom" round close-icon="close" closeable :style="{height: '88%'}">
+      <div :style="{ backgroundImage: 'url('+ this.blurImgUrl +')'}" class="blurBG">
+        <audio :src="mp3Url" autoplay controls="controls" class="audio"></audio>
+      </div>
+
     </van-popup>
   </div>
 </template>
@@ -64,6 +65,7 @@
         ],
         songList: [],
         mp3Url: '',
+        blurImgUrl: '',
         active: 0,
         type: 0,
       }
@@ -99,8 +101,9 @@
           this.finished = true
         }
       },
-      showMusic(id) {
+      showMusic(id, imgUrl) {
         console.log(id);
+        this.blurImgUrl = imgUrl
         this.songShow = true
         home.getMusicRealUrl(id).then(res => {
           if (res.data.code === 200) {
@@ -159,4 +162,19 @@
 
 <style scoped lang="scss">
   @import "NewSongTab";
+
+  /ddep/ .van-popup {
+    position: relative;
+  }
+
+  .blurBG {
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    box-sizing: border-box;
+    filter: blur(5px);
+    position: absolute;
+  }
 </style>
