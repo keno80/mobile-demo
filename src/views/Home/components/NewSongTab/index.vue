@@ -112,42 +112,42 @@
         this.songList = []
         switch (name) {
           case 0:
+            this.type = 0
             if (this.AllNew.length > 0) {
               this.songList = this.AllNew
             } else {
-              this.type = 0
               this.onLoad()
             }
             break
           case 1:
+            this.type = 7
             if (this.NewCN.length > 0) {
               this.songList = this.NewCN
             } else {
-              this.type = 7
               this.onLoad()
             }
             break
           case 2:
+            this.type = 8
             if (this.NewJP.length > 0) {
               this.songList = this.NewJP
             } else {
-              this.type = 8
               this.onLoad()
             }
             break
           case 3:
+            this.type = 16
             if (this.NewKR.length > 0) {
               this.songList = this.NewKR
             } else {
-              this.type = 16
               this.onLoad()
             }
             break
           case 4:
+            this.type = 96
             if (this.NewEU.length > 0) {
               this.songList = this.NewEU
             } else {
-              this.type = 96
               this.onLoad()
             }
             break
