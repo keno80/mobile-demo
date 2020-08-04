@@ -23,32 +23,20 @@
 
     <van-popup v-model="songShow" position="bottom" round close-icon="close" closeable :style="{height: '88%'}"
                align="center">
-      <div :style="{ backgroundImage: 'url('+ this.blurImgUrl +')'}" class="blurBG"/>
-
-      <div class="headInfo">
-        <p class="pName">{{playerHeadInfo.name}}</p>
-        <p class="pArtist">{{playerHeadInfo.artists}}</p>
-      </div>
-
-      <div class="songPicBlock">
-        <img :src="blurImgUrl">
-        <div class="lrcBlock">
-          <p v-for="(item, index) in lrcs" :key="index">{{item}}</p>
-        </div>
-      </div>
-
-      <audio :src="mp3Url" autoplay controls="controls" class="audio"/>
-
+      <player :playerInfo="playerInfo" ref="player"/>
     </van-popup>
   </div>
 </template>
 
 <script>
-  import song from "../../../../api/song";
   import {mapState} from 'vuex'
+  import Player from '../../../../components/Player'
 
   export default {
     name: "NewSongTab",
+    components: {
+      Player
+    },
     data() {
       return {
         loading: false,
@@ -77,15 +65,9 @@
           }
         ],
         songList: [],
-        mp3Url: '',
-        blurImgUrl: '',
         active: 0,
         type: 0,
-        lrcs: [],
-        playerHeadInfo: {
-          name: '',
-          artists: ''
-        }
+        playerInfo: {} //播放器所需信息
       }
     },
     computed: {
@@ -120,49 +102,10 @@
         }
       },
       showMusic(item) {
-        console.log(item);
-        song.getMusicRealUrl(item.id).then(res => {
-          if (res.data.code === 200) {
-            if (res.data.data[0].url !== null) {
-              this.blurImgUrl = item.album.blurPicUrl
-              this.playerHeadInfo.name = item.name
-              this.playerHeadInfo.artists = item.artist
-              this.songShow = true
-              this.getLyric(item)
-              this.mp3Url = res.data.data[0].url
-            } else {
-              this.$Toast.baseToast("fail", `这首歌曲暂时不能播放哦(●'◡'●)`)
-            }
-          }
-        })
-      },
-      getLyric(item) {
-        song.getMusicLyric(item.id).then(res => {
-          if (res.data.code === 200) {
-            let lrc = {}
-            let l = res.data.lrc.lyric
-            //分割歌词为数组
-            let lyrics = l.split("\n")
-            //创建歌词时间reg
-            const reg = /\[\d*:\d*(\.|:)\d*]/g
-            for (let i = 0; i < lyrics.length; i++) {
-              //歌词时间处理
-              let timeRegArr = lyrics[i].match(reg)
-              if (!timeRegArr) continue
-              //获取时间
-              let t = timeRegArr[0]
-              //正则匹配获取分和秒
-              let min = parseInt(t.match(/\[\d*/i).toString().slice(1))
-              let sec = parseInt(t.match(/\:\d*/i).toString().slice(1))
-              //完整时间
-              let time = min * 60 + sec
-              //获取歌词内容
-              let content = lyrics[i].replace(timeRegArr, "")
-              lrc[time] = content
-            }
-            this.lrcs = lrc
-            console.log(this.lrcs);
-          }
+        this.playerInfo = item
+        this.songShow = true
+        this.$nextTick(() => {
+          this.$refs.player.refreshData(item.id)
         })
       },
       tabChange(name) {
@@ -221,55 +164,4 @@
     position: relative;
   }
 
-  .blurBG {
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    box-sizing: border-box;
-    filter: blur(20px) brightness(60%);
-    position: absolute;
-    background-position: center center;
-    z-index: -1;
-  }
-
-  .headInfo {
-    .pName {
-      margin-bottom: 10px;
-      color: #e2e2e2;
-      font-weight: 600;
-    }
-
-    .pArtist {
-      margin: 0;
-      font-size: 12px;
-      color: #cecece;
-    }
-  }
-
-  .songPicBlock {
-    text-align: center;
-    height: 70%;
-    margin-top: 26px;
-
-    img {
-      width: 130px;
-      border-radius: 6px;
-      box-shadow: 0 0 20px #a19494;
-    }
-
-    .lrcBlock {
-      margin: 0 auto;
-      margin-top: 2%;
-      height: 57%;
-      width: 260px;
-      overflow: hidden;
-
-      p {
-        color: #cecece;
-        font-size: 12px;
-      }
-    }
-  }
 </style>
