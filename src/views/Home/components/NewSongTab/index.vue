@@ -261,8 +261,8 @@
 
     .lrcBlock {
       margin: 0 auto;
-      margin-top: 10px;
-      height: 260px;
+      margin-top: 2%;
+      height: 57%;
       width: 260px;
       overflow: hidden;
 
