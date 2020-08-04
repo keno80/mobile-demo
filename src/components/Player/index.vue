@@ -51,15 +51,11 @@
       getSongUrl() {
         song.getMusicRealUrl(this.playerInfo.id).then(res => {
           if (res.data.code === 200) {
-            if (res.data.data[0].url !== null) {
-              this.blurImgUrl = this.playerInfo.album.blurPicUrl
-              this.playerHeadInfo.name = this.playerInfo.name
-              this.playerHeadInfo.artists = this.playerInfo.artist
-              this.getLyric(this.playerInfo)
-              this.mp3Url = res.data.data[0].url
-            } else {
-              this.$Toast.baseToast("fail", `这首歌曲暂时不能播放哦(●'◡'●)`)
-            }
+            this.blurImgUrl = this.playerInfo.album.blurPicUrl
+            this.playerHeadInfo.name = this.playerInfo.name
+            this.playerHeadInfo.artists = this.playerInfo.artist
+            this.getLyric(this.playerInfo)
+            this.mp3Url = res.data.data[0].url
           }
         })
       },

@@ -30,6 +30,7 @@
 
 <script>
   import {mapState} from 'vuex'
+  import song from "../../../../api/song";
   import Player from '../../../../components/Player'
 
   export default {
@@ -102,10 +103,17 @@
         }
       },
       showMusic(item) {
-        this.playerInfo = item
-        this.songShow = true
-        this.$nextTick(() => {
-          this.$refs.player.refreshData(item.id)
+
+        song.getMusicRealUrl(item.id).then(res => {
+          if (res.data.data[0].url !== null) {
+            this.playerInfo = item
+            this.songShow = true
+            this.$nextTick(() => {
+              this.$refs.player.refreshData(item.id)
+            })
+          } else {
+            this.$Toast.baseToast("fail", `这首歌曲暂时不能播放哦(●'◡'●)`)
+          }
         })
       },
       tabChange(name) {
