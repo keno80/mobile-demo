@@ -23,8 +23,9 @@
 
     <van-popup v-model="songShow" position="bottom" round close-icon="close" closeable :style="{height: '88%'}">
       <div :style="{ backgroundImage: 'url('+ this.blurImgUrl +')'}" class="blurBG">
-        <audio :src="mp3Url" autoplay controls="controls" class="audio"></audio>
       </div>
+
+      <audio :src="mp3Url" autoplay controls="controls" class="audio"></audio>
 
     </van-popup>
   </div>
@@ -174,7 +175,8 @@
     height: 100%;
     background-size: cover;
     box-sizing: border-box;
-    filter: blur(5px);
+    filter: blur(10px);
     position: absolute;
+    background-position: center center;
   }
 </style>
