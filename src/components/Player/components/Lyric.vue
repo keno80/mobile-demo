@@ -1,6 +1,7 @@
 <template>
   <div class="lrcBlock">
-    <p v-for="(item, index) in lrcs" :key="index">{{item}}</p>
+    <p v-for="(item, name, index) in lrcs" :key="index"
+       :class="{'active' : currentTime > timeIndex[index] && currentTime < timeIndex[index+1]}">{{item}}</p>
   </div>
 </template>
 
@@ -10,11 +11,20 @@
   export default {
     name: "Lyric",
     props: {
-      id: Number
+      id: Number,
+      currentTime: {
+        type: Number,
+        required: true
+      },
+      duration: {
+        type: Number,
+        required: true
+      }
     },
     data() {
       return {
         lrcs: [],
+        timeIndex: []
       }
     },
     methods: {
@@ -43,10 +53,17 @@
               lrc[time] = content
             }
             this.lrcs = lrc
-            console.log(this.lrcs);
+            console.log(lrc);
+            this.getTimeIndex(lrc)
           }
         })
       },
+      getTimeIndex(lrcArr) {
+        for (let key in lrcArr) {
+          this.timeIndex.push(key)
+        }
+        console.log(this.timeIndex);
+      }
     }
   }
 </script>

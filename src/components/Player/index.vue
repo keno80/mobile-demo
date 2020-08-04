@@ -9,7 +9,7 @@
 
     <div class="songPicBlock">
       <img :src="blurImgUrl">
-      <lyric :id="id" ref="songLyric"/>
+      <lyric :id="id" ref="songLyric" :currentTime="lrcTime.currentTime" :duration="lrcTime.duration"/>
     </div>
 
     <audio :src="mp3Url" autoplay controls="controls" class="audio" ref="audio"/>
