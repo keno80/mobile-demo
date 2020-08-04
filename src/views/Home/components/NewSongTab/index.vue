@@ -21,9 +21,14 @@
       </van-tab>
     </van-tabs>
 
-    <van-popup v-model="songShow" position="bottom" round close-icon="close" closeable :style="{height: '88%'}">
+    <van-popup v-model="songShow" position="bottom" round close-icon="close" closeable :style="{height: '88%'}" align="center">
       <div :style="{ backgroundImage: 'url('+ this.blurImgUrl +')'}" class="blurBG">
       </div>
+
+      <div class="songPicBlock">
+        <img :src="blurImgUrl">
+      </div>
+
 
       <audio :src="mp3Url" autoplay controls="controls" class="audio"></audio>
 
@@ -32,7 +37,7 @@
 </template>
 
 <script>
-  import home from "../../../../api/home";
+  import song from "../../../../api/song";
   import {mapState} from 'vuex'
 
   export default {
@@ -69,6 +74,7 @@
         blurImgUrl: '',
         active: 0,
         type: 0,
+        lrcs: []
       }
     },
     computed: {
@@ -106,9 +112,39 @@
         console.log(id);
         this.blurImgUrl = imgUrl
         this.songShow = true
-        home.getMusicRealUrl(id).then(res => {
+        this.getLyric(id)
+        song.getMusicRealUrl(id).then(res => {
           if (res.data.code === 200) {
             this.mp3Url = res.data.data[0].url
+          }
+        })
+      },
+      getLyric(id) {
+        song.getMusicLyric(id).then(res => {
+          if (res.data.code === 200) {
+            let lrc = {}
+            let l = res.data.lrc.lyric
+            //分割歌词为数组
+            let lyrics = l.split("\n")
+            //创建歌词时间reg
+            const reg = /\[\d*:\d*(\.|:)\d*]/g
+            for (let i = 0; i < lyrics.length; i++) {
+              //歌词时间处理
+              let timeRegArr = lyrics[i].match(reg)
+              if (!timeRegArr) continue
+              //获取时间
+              let t = timeRegArr[0]
+              //正则匹配获取分和秒
+              let min = parseInt(t.match(/\[\d*/i).toString().slice(1))
+              let sec = parseInt(t.match(/\:\d*/i).toString().slice(1))
+              //完整时间
+              let time = min * 60 + sec
+              //获取歌词内容
+              let content = lyrics[i].replace(timeRegArr, "")
+              lrc[time] = content
+            }
+            this.lrcs = lrc
+            console.log(this.lrcs);
           }
         })
       },
@@ -175,8 +211,20 @@
     height: 100%;
     background-size: cover;
     box-sizing: border-box;
-    filter: blur(10px);
+    filter: blur(20px) brightness(80%);
     position: absolute;
     background-position: center center;
+    z-index: -1;
+  }
+
+  .songPicBlock {
+    text-align: center;
+    height: 70%;
+    margin-top: 76px;
+
+    img {
+      width: 140px;
+      border-radius: 10px;
+    }
   }
 </style>

@@ -1,25 +1,25 @@
 import axios from '../utils/http'
 
 export default {
-  //获取首页banner
-  getBanner(type) {
+  // 获取音乐实际地址
+  getMusicRealUrl(id) {
     return axios({
-      url: `/api/banner`,
+      url: `/api/song/url`,
       method: 'get',
       params: {
-        type
+        id
       }
     })
   },
 
-  //新歌速递
-  getNewSong(type) {
+  // 获取音乐歌词
+  getMusicLyric(id) {
     return axios({
-      url: `/api/top/song`,
+      url: `/api/lyric`,
       method: 'get',
       params: {
-        type,
+        id
       }
     })
-  },
+  }
 }
