@@ -170,6 +170,7 @@
 
   /ddep/ .van-popup {
     position: relative;
+    overflow: hidden;
   }
 
 </style>

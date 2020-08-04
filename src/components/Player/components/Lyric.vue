@@ -1,7 +1,10 @@
 <template>
-  <div class="lrcBlock">
-    <p v-for="(item, name, index) in lrcs" :key="index"
-       :class="{'active' : currentTime > timeIndex[index] && currentTime < timeIndex[index+1]}">{{item}}</p>
+  <div class="lrcContainer">
+    <div class="lrcBlock" ref="lrcBlock">
+      <p v-for="(item, name, index) in lrcs" :key="index"
+         :class="{'active' : currentTime > timeIndex[index] && currentTime < timeIndex[index+1]}">
+        {{item}}{{scrollLrc(index)}}</p>
+    </div>
   </div>
 </template>
 
@@ -29,6 +32,7 @@
     },
     methods: {
       getLyric(id) {
+        this.$refs.lrcBlock.style.top = 0 + 'px'
         song.getMusicLyric(id).then(res => {
           if (res.data.code === 200) {
             let lrc = {}
@@ -53,7 +57,6 @@
               lrc[time] = content
             }
             this.lrcs = lrc
-            console.log(lrc);
             this.getTimeIndex(lrc)
           }
         })
@@ -62,7 +65,11 @@
         for (let key in lrcArr) {
           this.timeIndex.push(key)
         }
-        console.log(this.timeIndex);
+      },
+      scrollLrc(index) {
+        if (this.currentTime > this.timeIndex[index] && this.currentTime < this.timeIndex[index + 1]) {
+          this.$refs.lrcBlock.style.top = -30 * index + 'px'
+        }
       }
     }
   }
