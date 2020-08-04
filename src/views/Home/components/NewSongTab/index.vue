@@ -32,8 +32,10 @@
 
       <div class="songPicBlock">
         <img :src="blurImgUrl">
+        <div class="lrcBlock">
+          <p v-for="(item, index) in lrcs" :key="index">{{item}}</p>
+        </div>
       </div>
-
 
       <audio :src="mp3Url" autoplay controls="controls" class="audio"/>
 
@@ -119,14 +121,18 @@
       },
       showMusic(item) {
         console.log(item);
-        this.blurImgUrl = item.album.blurPicUrl
-        this.playerHeadInfo.name = item.name
-        this.playerHeadInfo.artists = item.artist
-        this.songShow = true
-        this.getLyric(item)
         song.getMusicRealUrl(item.id).then(res => {
           if (res.data.code === 200) {
-            this.mp3Url = res.data.data[0].url
+            if (res.data.data[0].url !== null) {
+              this.blurImgUrl = item.album.blurPicUrl
+              this.playerHeadInfo.name = item.name
+              this.playerHeadInfo.artists = item.artist
+              this.songShow = true
+              this.getLyric(item)
+              this.mp3Url = res.data.data[0].url
+            } else {
+              this.$Toast.baseToast("fail", `这首歌曲暂时不能播放哦(●'◡'●)`)
+            }
           }
         })
       },
@@ -251,6 +257,19 @@
       width: 130px;
       border-radius: 6px;
       box-shadow: 0 0 20px #a19494;
+    }
+
+    .lrcBlock {
+      margin: 0 auto;
+      margin-top: 10px;
+      height: 260px;
+      width: 260px;
+      overflow: hidden;
+
+      p {
+        color: #cecece;
+        font-size: 12px;
+      }
     }
   }
 </style>
