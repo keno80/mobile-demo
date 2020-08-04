@@ -11,7 +11,7 @@
         >
           <van-cell v-for="item in songList" :key="item.id">
             <img v-lazy="item.album.picUrl" class="songPic">
-            <div class="songBlock" @click="showMusic(item.id, item.album.blurPicUrl)">
+            <div class="songBlock" @click="showMusic(item)">
               <p class="songTitle">{{item.name}}</p>
               <br/>
               <div class="songInfo">{{item.artist}} - {{item.album.name}}</div>
@@ -21,8 +21,13 @@
       </van-tab>
     </van-tabs>
 
-    <van-popup v-model="songShow" position="bottom" round close-icon="close" closeable :style="{height: '88%'}" align="center">
-      <div :style="{ backgroundImage: 'url('+ this.blurImgUrl +')'}" class="blurBG">
+    <van-popup v-model="songShow" position="bottom" round close-icon="close" closeable :style="{height: '88%'}"
+               align="center">
+      <div :style="{ backgroundImage: 'url('+ this.blurImgUrl +')'}" class="blurBG"/>
+
+      <div class="headInfo">
+        <p class="pName">{{playerHeadInfo.name}}</p>
+        <p class="pArtist">{{playerHeadInfo.artists}}</p>
       </div>
 
       <div class="songPicBlock">
@@ -30,7 +35,7 @@
       </div>
 
 
-      <audio :src="mp3Url" autoplay controls="controls" class="audio"></audio>
+      <audio :src="mp3Url" autoplay controls="controls" class="audio"/>
 
     </van-popup>
   </div>
@@ -74,7 +79,11 @@
         blurImgUrl: '',
         active: 0,
         type: 0,
-        lrcs: []
+        lrcs: [],
+        playerHeadInfo: {
+          name: '',
+          artists: ''
+        }
       }
     },
     computed: {
@@ -108,19 +117,21 @@
           this.finished = true
         }
       },
-      showMusic(id, imgUrl) {
-        console.log(id);
-        this.blurImgUrl = imgUrl
+      showMusic(item) {
+        console.log(item);
+        this.blurImgUrl = item.album.blurPicUrl
+        this.playerHeadInfo.name = item.name
+        this.playerHeadInfo.artists = item.artist
         this.songShow = true
-        this.getLyric(id)
-        song.getMusicRealUrl(id).then(res => {
+        this.getLyric(item)
+        song.getMusicRealUrl(item.id).then(res => {
           if (res.data.code === 200) {
             this.mp3Url = res.data.data[0].url
           }
         })
       },
-      getLyric(id) {
-        song.getMusicLyric(id).then(res => {
+      getLyric(item) {
+        song.getMusicLyric(item.id).then(res => {
           if (res.data.code === 200) {
             let lrc = {}
             let l = res.data.lrc.lyric
@@ -211,20 +222,35 @@
     height: 100%;
     background-size: cover;
     box-sizing: border-box;
-    filter: blur(20px) brightness(80%);
+    filter: blur(20px) brightness(60%);
     position: absolute;
     background-position: center center;
     z-index: -1;
   }
 
+  .headInfo {
+    .pName {
+      margin-bottom: 10px;
+      color: #e2e2e2;
+      font-weight: 600;
+    }
+
+    .pArtist {
+      margin: 0;
+      font-size: 12px;
+      color: #cecece;
+    }
+  }
+
   .songPicBlock {
     text-align: center;
     height: 70%;
-    margin-top: 76px;
+    margin-top: 26px;
 
     img {
-      width: 140px;
-      border-radius: 10px;
+      width: 130px;
+      border-radius: 6px;
+      box-shadow: 0 0 20px #a19494;
     }
   }
 </style>
