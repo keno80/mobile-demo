@@ -33,8 +33,12 @@ const ErrCodeMessage = (num) => {
 //创建axios实例
 const instance = axios.create({
   timeout: 30000,
-  url: `/api`
 })
+
+export const reqUrl = {
+  // prod: '/api',
+  prod: 'http://110.43.44.58:3000'
+}
 
 //请求头
 instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'

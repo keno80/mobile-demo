@@ -4,6 +4,9 @@ const interfaceStatus = os.networkInterfaces()[Object.keys(os.networkInterfaces(
 
 module.exports = {
   configureWebpack: {},
+  publicPath: '/',
+  outputDir: 'dist',
+  assetsDir: 'static',
   devServer: {
     public: interfaceStatus[1].address + ':8080',
     disableHostCheck: true,
@@ -16,5 +19,6 @@ module.exports = {
         },
       }
     }
-  }
+  },
+  productionSourceMap: false
 }
