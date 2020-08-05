@@ -13,6 +13,8 @@
 
     <lyric :id="id" ref="songLyric" :currentTime="lrcTime.currentTime" :duration="lrcTime.duration"/>
 
+    <player-controller :currentTime="lrcTime.currentTime" :duration="lrcTime.duration"/>
+
     <audio :src="mp3Url" autoplay controls="controls" class="audio" ref="audio"/>
 
   </div>
@@ -21,12 +23,14 @@
 
 <script>
   import song from "../../api/song";
-  import Lyric from "./components/Lyric";
+  import Lyric from "./components/Lyric/Lyric";
+  import PlayerController from "./components/PlayerControl/PlayerController";
 
   export default {
     name: "Player",
     components: {
-      Lyric
+      Lyric,
+      PlayerController
     },
     props: {
       playerInfo: {

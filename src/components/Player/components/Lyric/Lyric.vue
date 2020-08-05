@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import song from "../../../api/song";
+  import song from "../../../../api/song";
 
   export default {
     name: "Lyric",
@@ -76,5 +76,5 @@
 </script>
 
 <style scoped lang="scss">
-  @import "lrcStyle";
+  @import "./lrcStyle";
 </style>
