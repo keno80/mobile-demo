@@ -1,0 +1,29 @@
+.sliderBlock {
+  width: 88%;
+  margin-bottom: 4%;
+
+  .progress_time {
+    margin: 0 10px;
+    display: inline-block;
+    font-size: 12px;
+    color: #ffffff;
+  }
+
+  .van-slider {
+    width: 60%;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: left;
+  }
+
+  /deep/ .van-slider__button {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+.controllerBlock {
+  .play_pause__img {
+    width: 15%;
+  }
+}

@@ -1,9 +1,18 @@
 <template>
-  <div class="sliderBlock">
-    <p class="progress_time">{{curTime}}</p>
-    <van-slider v-model="progress" @change="onChange" bar-height="4px" active-color="#ee0a24"/>
-    <p class="progress_time">{{totalTime}}</p>
+  <div>
+    <div class="sliderBlock">
+      <p class="progress_time">{{curTime}}</p>
+      <van-slider v-model="progress" bar-height="4px" active-color="#ee0a24"/>
+      <p class="progress_time">{{totalTime}}</p>
+    </div>
+
+    <div class="controllerBlock">
+      <img src="../../../../assets/images/player/pause.png" class="play_pause__img" v-if="audioInfo.paused === false"
+           @click="playController">
+      <img src="../../../../assets/images/player/play.png" class="play_pause__img" v-else @click="playController">
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -11,6 +20,10 @@
   export default {
     name: "PlayerController",
     props: {
+      audioInfo: {
+        type: Object,
+        required: true
+      },
       currentTime: {
         type: Number,
         required: true
@@ -42,10 +55,9 @@
       }
     },
     methods: {
-      onChange() {
-
+      playController() {
+        this.$emit('playController')
       },
-
       // 秒转换分钟00:00:00格式
       timeToMinute(times) {
         let t = ''
@@ -70,28 +82,5 @@
 </script>
 
 <style scoped lang="scss">
-  .sliderBlock {
-    width: 88%;
-
-    .progress_time {
-      margin: 0 10px;
-      display: inline-block;
-      font-size: 12px;
-      color: #ffffff;
-    }
-
-    .van-slider {
-      width: 60%;
-      display: inline-block;
-      vertical-align: middle;
-      text-align: left;
-    }
-
-    /deep/ .van-slider__button {
-      width: 8px;
-      height: 8px;
-    }
-  }
-
-
+  @import "./PCStyle";
 </style>

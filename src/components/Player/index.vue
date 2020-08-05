@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%;overflow: hidden">
-      <div :style="{ backgroundImage: 'url('+ this.blurImgUrl +')'}" class="blurBG"/>
+    <div :style="{ backgroundImage: 'url('+ this.blurImgUrl +')'}" class="blurBG"/>
 
     <div class="headInfo">
       <p class="pName">{{playerHeadInfo.name}}</p>
@@ -13,9 +13,10 @@
 
     <lyric :id="id" ref="songLyric" :currentTime="lrcTime.currentTime" :duration="lrcTime.duration"/>
 
-    <player-controller :currentTime="lrcTime.currentTime" :duration="lrcTime.duration"/>
+    <player-controller :currentTime="lrcTime.currentTime" :duration="lrcTime.duration" :audioInfo="audioInfo"
+                       @playController="controller"/>
 
-    <audio :src="mp3Url" autoplay controls="controls" class="audio" ref="audio"/>
+    <audio :src="mp3Url" autoplay class="audio" ref="audio"/>
 
   </div>
 
@@ -41,15 +42,18 @@
     data() {
       return {
         id: '',
-        mp3Url: '',
-        blurImgUrl: '',
+        mp3Url: '',  //歌曲Url
+        blurImgUrl: '',  //背景以及播放页面图片
         playerHeadInfo: {
-          name: '',
-          artists: ''
+          name: '',  //歌曲名
+          artists: ''  //歌手
         },
         lrcTime: {
-          currentTime: 0,
-          duration: 0
+          currentTime: 0,  //当前播放时间
+          duration: 0  //总时长
+        },
+        audioInfo: {
+          paused: true  //暂停状态
         }
       }
     },
@@ -67,12 +71,14 @@
             this.mp3Url = res.data.data[0].url
             this.$nextTick(() => {
               this.$refs.songLyric.getLyric(this.playerInfo.id)
-              })
+              setTimeout(() => {
+                this.audioInfo.paused = this.$refs.audio.paused
+              }, 500)
+            })
             this.getMusicTime()
           }
         })
       },
-
       getMusicTime() {
         this.$nextTick(() => {
           this.$refs.audio.addEventListener('timeupdate', () => {
@@ -87,6 +93,16 @@
         if (this.id !== id) {
           this.id = id
           this.getSongUrl()
+        }
+      },
+      //播放控件操作
+      controller() {
+        if (this.$refs.audio.paused === false) {
+          this.$refs.audio.pause()
+          this.audioInfo.paused = true
+        } else {
+          this.$refs.audio.play()
+          this.audioInfo.paused = false
         }
       }
     }
