@@ -1,6 +1,6 @@
 <template>
-  <div style="height: 100%">
-    <div :style="{ backgroundImage: 'url('+ this.blurImgUrl +')'}" class="blurBG"/>
+  <div style="height: 100%;overflow: hidden">
+      <div :style="{ backgroundImage: 'url('+ this.blurImgUrl +')'}" class="blurBG"/>
 
     <div class="headInfo">
       <p class="pName">{{playerHeadInfo.name}}</p>

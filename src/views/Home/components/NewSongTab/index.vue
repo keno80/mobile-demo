@@ -173,4 +173,8 @@
     overflow: hidden;
   }
 
+  /deep/.van-popup--bottom {
+    overflow: hidden;
+  }
+
 </style>
