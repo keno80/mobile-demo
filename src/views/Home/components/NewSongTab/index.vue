@@ -10,7 +10,7 @@
                 @load="onLoad"
         >
           <van-cell v-for="item in songList" :key="item.id">
-            <img v-lazy="item.album.picUrl" class="songPic">
+            <img v-lazy="item.album.picUrl + '?param=50y50'" class="songPic">
             <div class="songBlock" @click="showMusic(item)">
               <p class="songTitle">{{item.name}}</p>
               <br/>

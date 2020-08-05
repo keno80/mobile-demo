@@ -8,7 +8,7 @@
     </div>
 
     <div class="songPicBlock">
-      <img :src="blurImgUrl">
+      <img :src="blurImgUrl + '?param=150y150'">
     </div>
 
     <lyric :id="id" ref="songLyric" :currentTime="lrcTime.currentTime" :duration="lrcTime.duration"/>

@@ -36,8 +36,8 @@ const instance = axios.create({
 })
 
 export const reqUrl = {
-  // prod: '/api',
-  prod: 'http://110.43.44.58:3000'
+  prod: '/api',
+  // prod: 'http://110.43.44.58:3000'
 }
 
 //请求头

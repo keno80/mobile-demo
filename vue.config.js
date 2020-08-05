@@ -4,7 +4,7 @@ const interfaceStatus = os.networkInterfaces()[Object.keys(os.networkInterfaces(
 
 module.exports = {
   configureWebpack: {},
-  publicPath: '/',
+  publicPath: './',
   outputDir: 'dist',
   assetsDir: 'static',
   devServer: {
