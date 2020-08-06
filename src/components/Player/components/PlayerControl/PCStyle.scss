@@ -1,6 +1,6 @@
 .sliderBlock {
   width: 88%;
-  margin-bottom: 4%;
+  margin-bottom: 2%;
 
   .progress_time {
     margin: 0 10px;
@@ -25,5 +25,11 @@
 .controllerBlock {
   .play_pause__img {
     width: 15%;
+    margin: 0 4%;
+  }
+
+  .next_previous_img {
+    width: 10%;
+    vertical-align: super;
   }
 }

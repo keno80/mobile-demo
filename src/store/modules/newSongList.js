@@ -5,6 +5,7 @@
 import home from "../../api/home";
 
 const state = {
+  type: 0,
   AllNew: [],
   NewCN: [],
   NewJP: [],
@@ -31,6 +32,7 @@ const mutations = {
         state.NewEU = info.data
         break
     }
+    state.type = info.type
   }
 }
 

@@ -7,9 +7,11 @@
     </div>
 
     <div class="controllerBlock">
+      <img src="../../../../assets/images/player/previous.png" class="next_previous_img" @click="switchMusicController('pre')">
       <img src="../../../../assets/images/player/pause.png" class="play_pause__img" v-if="audioInfo.paused === false"
            @click="playController">
       <img src="../../../../assets/images/player/play.png" class="play_pause__img" v-else @click="playController">
+      <img src="../../../../assets/images/player/next.png" class="next_previous_img" @click="switchMusicController('next')">
     </div>
   </div>
 
@@ -57,6 +59,9 @@
     methods: {
       playController() {
         this.$emit('playController')
+      },
+      switchMusicController(type) {
+        this.$emit('switchMusicController', type)
       },
       // 秒转换分钟00:00:00格式
       timeToMinute(times) {

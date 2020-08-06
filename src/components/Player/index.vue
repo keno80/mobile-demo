@@ -14,7 +14,7 @@
     <lyric :id="id" ref="songLyric" :currentTime="lrcTime.currentTime" :duration="lrcTime.duration"/>
 
     <player-controller :currentTime="lrcTime.currentTime" :duration="lrcTime.duration" :audioInfo="audioInfo"
-                       @playController="controller"/>
+                       @playController="playController" @switchMusicController="switchMusicController"/>
 
     <audio :src="mp3Url" autoplay class="audio" ref="audio"/>
 
@@ -24,6 +24,7 @@
 
 <script>
   import song from "../../api/song";
+  import {mapState} from 'vuex'
   import Lyric from "./components/Lyric/Lyric";
   import PlayerController from "./components/PlayerControl/PlayerController";
 
@@ -56,6 +57,16 @@
           paused: true  //暂停状态
         }
       }
+    },
+    computed: {
+      ...mapState({
+        type: state => state.newSongList.type,
+        AllNew: state => state.newSongList.AllNew,
+        NewCN: state => state.newSongList.NewCN,
+        NewJP: state => state.newSongList.NewJP,
+        NewKR: state => state.newSongList.NewKR,
+        NewEU: state => state.newSongList.NewEU,
+      })
     },
     created() {
       this.getSongUrl()
@@ -96,13 +107,80 @@
         }
       },
       //播放控件操作
-      controller() {
+      playController() {
         if (this.$refs.audio.paused === false) {
           this.$refs.audio.pause()
           this.audioInfo.paused = true
         } else {
           this.$refs.audio.play()
           this.audioInfo.paused = false
+        }
+      },
+      //上一首下一首
+      switchMusicController(type) {
+        console.log(type);
+        let info = this.handleCurrentIndex()
+        if (type === 'pre') {
+          if (info.index === 0) {
+            this.$Toast.baseToast('fail', '这已经是第一首音乐咯o(*￣▽￣*)ブ')
+          } else if (info.index > 0) {
+            for (let i = 0; i < info.list.length; i++) {
+              if (info.index === i) {
+                this.id = info.list[i - 1].id
+                this.getSongUrl()
+              }
+            }
+          }
+        } else if (type === 'next') {
+          if (info.index === info.list.length) {
+            this.$Toast.baseToast('fail', '这已经是最后一首音乐咯o(*￣▽￣*)ブ')
+          } else if (info.index < info.list.length) {
+            for (let i = 0; i < info.list.length; i++) {
+              if (info.index === i) {
+                this.id = info.list[i + 1].id
+                console.log(info.list[i].id);
+                console.log(info.list[i+1].id);
+                this.getSongUrl()
+              }
+            }
+          }
+        }
+      },
+      //获取当前播放的音乐列表
+      handleCurrentType() {
+        let type = this.type
+        let songList = []
+        switch (type) {
+          case 0:
+            songList = this.AllNew
+            break
+          case 7:
+            songList = this.NewCN
+            break
+          case 8:
+            songList = this.NewJP
+            break
+          case 16:
+            songList = this.NewKR
+            break
+          case 96:
+            songList = this.NewEU
+            break
+        }
+        return songList
+      },
+      //获取当前音乐所在列表的index
+      handleCurrentIndex() {
+        let list = this.handleCurrentType()
+        let index = 0
+        for (let i = 0; i < list.length; i++) {
+          if (this.playerInfo.id === list[i].id) {
+            index = i
+          }
+        }
+        return {
+          index,
+          list
         }
       }
     }

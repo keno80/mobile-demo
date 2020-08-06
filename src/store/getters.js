@@ -1,4 +1,5 @@
 const getters = {
+  type: state => state.newSongList.type,
   AllNew: state => state.newSongList.AllNew,
   NewCN: state => state.newSongList.NewCN,
   NewJP: state => state.newSongList.NewJP,
