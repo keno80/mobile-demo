@@ -1,7 +1,9 @@
 <template>
   <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
     <van-swipe-item v-for="item in picList" :key="item.bannerId">
-      <img v-lazy="item.pic">
+      <a :href="item.url">
+        <img v-lazy="item.pic">
+      </a>
     </van-swipe-item>
   </van-swipe>
 </template>
