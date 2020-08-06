@@ -30,6 +30,7 @@
 
 <script>
   import {mapState} from 'vuex'
+  import handleArtistName from "../../../../utils/SongsHandle/handleArtistName";
   import song from "../../../../api/song";
   import Player from '../../../../components/Player'
 
@@ -85,25 +86,13 @@
         if (this.songList.length < 100) {
 
           this.songList = await this.$store.dispatch('newSongList/getListData', this.type)
-
+          this.songList = handleArtistName(this.songList)
           this.loading = false
-          for (let i = 0; i < this.songList.length; i++) {
-            if (this.songList[i].artists.length > 1) {
-              let a = []
-              for (let j = 0; j < this.songList[i].artists.length; j++) {
-                a.push(this.songList[i].artists[j].name)
-                this.songList[i].artist = a.join('/')
-              }
-            } else {
-              this.songList[i].artist = this.songList[i].artists[0].name
-            }
-          }
         } else {
           this.finished = true
         }
       },
       showMusic(item) {
-
         song.getMusicRealUrl(item.id).then(res => {
           if (res.data.data[0].url !== null) {
             this.playerInfo = item
@@ -173,7 +162,7 @@
     overflow: hidden;
   }
 
-  /deep/.van-popup--bottom {
+  /deep/ .van-popup--bottom {
     overflow: hidden;
   }
 
