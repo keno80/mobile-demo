@@ -1,6 +1,7 @@
 <template>
   <div class="main-container">
     <app-main/>
+    <tab-bar/>
   </div>
 </template>
 

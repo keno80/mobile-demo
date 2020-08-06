@@ -22,7 +22,7 @@
     </van-tabs>
 
     <van-popup v-model="songShow" position="bottom" round close-icon="close" closeable :style="{height: '88%'}"
-               align="center">
+               align="center" @close="refreshWidgetStatus" ref="playerPop">
       <player :playerInfo="playerInfo" ref="player"/>
     </van-popup>
   </div>
@@ -97,6 +97,10 @@
           if (res.data.data[0].url !== null) {
             this.playerInfo = item
             this.songShow = true
+            this.$store.dispatch('playerWidget/setInfo', {
+              info: handleArtistName(this.playerInfo),
+              songShow: this.songShow
+            })
             this.$nextTick(() => {
               this.$refs.player.refreshData(item.id)
             })
@@ -149,6 +153,10 @@
             }
             break
         }
+      },
+      //用于刷新小部件状态
+      refreshWidgetStatus() {
+        this.$store.dispatch('playerWidget/setInfo', {info: handleArtistName(this.playerInfo), songShow: this.songShow})
       }
     }
   }

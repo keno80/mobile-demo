@@ -1,27 +1,69 @@
 <template>
-  <van-tabbar v-model="active" @change="onChange">
-    <van-tabbar-item name="home" icon="wap-home-o">首页</van-tabbar-item>
-    <van-tabbar-item name="search" icon="search">搜索</van-tabbar-item>
-    <van-tabbar-item name="profile" icon="user-circle-o">我的</van-tabbar-item>
-  </van-tabbar>
+  <div class="playerWidgetBlock" v-if="playWidgetShow">
+    <div class="widgetImg">
+      <img :src="playWidgetInfo.songImg + '?param=50y50'">
+    </div>
+    <div class="widgetInfo">
+      <p class="name">{{playWidgetInfo.songName}}</p>
+      <p class="singer">{{playWidgetInfo.singer}}</p>
+    </div>
+  </div>
 </template>
 
 <script>
+  import {mapState} from 'vuex'
+
   export default {
     name: "TabBar",
-    data() {
-      return {
-        active: 'home'
-      }
+    computed: {
+      ...mapState({
+        playWidgetInfo: state => state.playerWidget.info,
+        playWidgetShow: state => state.playerWidget.isShow,
+      })
     },
-    methods: {
-      onChange(index) {
-        console.log(index);
-      }
-    }
+    mounted() {
+      console.log(this.playWidgetInfo);
+    },
+    methods: {}
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+  .playerWidgetBlock {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    height: 60px;
+    background: #ffffff;
+    box-shadow: 0 -2px 10px -1px #c9edff;
 
+    .widgetImg {
+      height: 100%;
+      width: 13.6%;
+      margin-left: 4.4%;
+      float: left;
+
+      img {
+        margin-top: 10px;
+        border-radius: 4px;
+      }
+    }
+
+    .widgetInfo {
+      margin: 10px 0 10px 65px;
+
+      .name {
+        line-height: 0.7;
+        color: #282828;
+        font-size: 14px;
+      }
+
+      .singer {
+        margin: 0;
+        font-size: 12px;
+        color: #939393;
+        line-height: 0.6;
+      }
+    }
+  }
 </style>

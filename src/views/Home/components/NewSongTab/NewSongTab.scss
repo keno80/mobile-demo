@@ -5,6 +5,10 @@
   font-weight: 700;
 }
 
+/deep/.van-tab__pane {
+  margin-bottom: 60px;
+}
+
 /deep/ .van-tabs--line .van-tabs__wrap {
   height: 34px;
 }
@@ -16,7 +20,6 @@
 }
 
 /deep/ .van-list {
-  height: 440px;
   min-height: 300px;
 
   .van-cell {
