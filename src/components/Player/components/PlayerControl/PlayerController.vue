@@ -7,17 +7,20 @@
     </div>
 
     <div class="controllerBlock">
-      <img src="../../../../assets/images/player/previous.png" class="next_previous_img" @click="switchMusicController('pre')">
-      <img src="../../../../assets/images/player/pause.png" class="play_pause__img" v-if="audioInfo.paused === false"
+      <img src="../../../../assets/images/player/previous.png" class="next_previous_img"
+           @click="switchMusicController('pre')">
+      <img src="../../../../assets/images/player/play.png" class="play_pause__img" v-if="isPaused"
            @click="playController">
-      <img src="../../../../assets/images/player/play.png" class="play_pause__img" v-else @click="playController">
-      <img src="../../../../assets/images/player/next.png" class="next_previous_img" @click="switchMusicController('next')">
+      <img src="../../../../assets/images/player/pause.png" class="play_pause__img" v-else @click="playController">
+      <img src="../../../../assets/images/player/next.png" class="next_previous_img"
+           @click="switchMusicController('next')">
     </div>
   </div>
 
 </template>
 
 <script>
+  import {mapState} from 'vuex'
 
   export default {
     name: "PlayerController",
@@ -41,6 +44,9 @@
       }
     },
     computed: {
+      ...mapState({
+        isPaused: state => state.playerWidget.isPaused
+      }),
       curTime() {
         return this.timeToMinute(this.currentTime)
       },

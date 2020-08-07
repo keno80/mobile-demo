@@ -88,6 +88,8 @@
               this.$refs.songLyric.getLyric(id)
               setTimeout(() => {
                 this.audioInfo.paused = this.$refs.audio.paused
+                this.$store.dispatch('playerWidget/widgetIcon', this.$refs.audio.paused)
+                this.$store.dispatch('playerWidget/saveAudioRefs', this.$refs.audio)
               }, 500)
             })
             this.getMusicTime()
@@ -113,6 +115,7 @@
           this.$refs.audio.play()
           this.audioInfo.paused = false
         }
+        this.$store.dispatch('playerWidget/widgetIcon', this.$refs.audio.paused)
       },
       //上一首下一首
       switchMusicController(type) {
