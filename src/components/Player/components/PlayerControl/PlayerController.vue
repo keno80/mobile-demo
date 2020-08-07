@@ -2,7 +2,7 @@
   <div>
     <div class="sliderBlock">
       <p class="progress_time">{{curTime}}</p>
-      <van-slider v-model="progress" bar-height="4px" active-color="#ee0a24"/>
+      <van-slider v-model="progress" bar-height="4px" active-color="#1989fa"/>
       <p class="progress_time">{{totalTime}}</p>
     </div>
 

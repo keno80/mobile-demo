@@ -109,6 +109,8 @@
           if (res.data.data[0].url !== null) {
             this.playerInfo = item
             this.$store.dispatch('playerWidget/toggleOpenPlayer', 'list')
+            //vuex保存当前播放的音乐列表
+            this.$store.dispatch('playerWidget/saveNowMusicList', this.songList)
             //vuex保存当前正在播放的音乐信息
             this.$store.dispatch('newSongList/setNowPlay', this.playerInfo)
             //为播放小部件赋值

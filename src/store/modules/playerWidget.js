@@ -8,7 +8,8 @@ const state = {
   info: {},
   ShowPlayer: false,
   isPaused: false,
-  audioRefs: null
+  audioRefs: null,
+  nowList: []
 }
 
 const mutations = {
@@ -38,6 +39,7 @@ const mutations = {
   SAVE_AUDIO_REFS: (state, data) => {
     state.audioRefs = data
   },
+  //通过小部件播放暂停音乐
   CHANGE_PLAY_STATUS: (state, type) => {
     if (type === 'pause') {
       state.audioRefs.pause()
@@ -46,6 +48,10 @@ const mutations = {
       state.audioRefs.play()
       state.isPaused = false
     }
+  },
+  // 保存当前播放的音乐列表
+  SAVE_NOW_MUSIC_LIST: (state, list) => {
+    state.nowList = list
   }
 }
 
@@ -70,6 +76,9 @@ const actions = {
   },
   changePlayStatus({commit}, type) {
     commit('CHANGE_PLAY_STATUS', type)
+  },
+  saveNowMusicList({commit}, list) {
+    commit('SAVE_NOW_MUSIC_LIST', list)
   }
 }
 

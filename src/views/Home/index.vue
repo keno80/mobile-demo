@@ -40,6 +40,7 @@
   /deep/ .van-tabs--line {
     .van-tabs__line {
       background-color: #1989fa;
+      z-index: 0;
     }
   }
 </style>
