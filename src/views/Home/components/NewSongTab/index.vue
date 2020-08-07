@@ -79,6 +79,7 @@
         NewJP: state => state.newSongList.NewJP,
         NewKR: state => state.newSongList.NewKR,
         NewEU: state => state.newSongList.NewEU,
+        NowPlay: state => state.newSongList.NowPlay
       })
     },
     methods: {
@@ -97,8 +98,11 @@
           if (res.data.data[0].url !== null) {
             this.playerInfo = item
             this.songShow = true
+            //vuex保存当前正在播放的音乐信息
+            this.$store.dispatch('newSongList/setNowPlay', this.playerInfo)
+            //为播放小部件赋值
             this.$store.dispatch('playerWidget/setInfo', {
-              info: handleArtistName(this.playerInfo),
+              info: this.NowPlay,
               songShow: this.songShow
             })
             this.$nextTick(() => {
@@ -156,7 +160,8 @@
       },
       //用于刷新小部件状态
       refreshWidgetStatus() {
-        this.$store.dispatch('playerWidget/setInfo', {info: handleArtistName(this.playerInfo), songShow: this.songShow})
+        //为播放小部件赋值
+        this.$store.dispatch('playerWidget/setInfo', {info: this.NowPlay, songShow: this.songShow})
       }
     }
   }

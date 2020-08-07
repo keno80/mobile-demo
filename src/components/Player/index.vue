@@ -68,6 +68,7 @@
         NewJP: state => state.newSongList.NewJP,
         NewKR: state => state.newSongList.NewKR,
         NewEU: state => state.newSongList.NewEU,
+        NowPlay: state => state.newSongList.NowPlay
       })
     },
     created() {
@@ -185,11 +186,22 @@
           this.blurImgUrl = this.playerInfo.album.blurPicUrl
           this.playerHeadInfo.name = this.playerInfo.name
           this.playerHeadInfo.artists = this.playerInfo.artist
+          this.$store.dispatch('newSongList/setNowPlay', this.playerInfo)
+          this.$store.dispatch('playerWidget/setInfo', {
+            info: this.NowPlay,
+            songShow: true
+          })
         } else if (type === 'controller') {
           let list = this.handleCurrentIndex()
           this.playerHeadInfo.name = list.list[list.index].name
           this.playerHeadInfo.artists = handleArtistName(list.list)[list.index].artist
           this.blurImgUrl = list.list[list.index].album.blurPicUrl
+          //保存正在播放的音乐信息
+          this.$store.dispatch('newSongList/setNowPlay', handleArtistName(list.list[list.index]))
+          this.$store.dispatch('playerWidget/setInfo', {
+            info: this.NowPlay,
+            songShow: true
+          })
         }
         if (res.data.data[0].url === null) {
           this.$Toast.baseToast('fail', `这首歌曲暂时不能播放哦(●\'◡\'●)`)

@@ -5,6 +5,7 @@ const getters = {
   NewJP: state => state.newSongList.NewJP,
   NewKR: state => state.newSongList.NewKR,
   NewEU: state => state.newSongList.NewEU,
+  NowPlay: state => state.newSongList.NowPlay,
   playWidgetInfo: state => state.playerWidget.info,
   playWidgetShow: state => state.playerWidget.isShow,
 }

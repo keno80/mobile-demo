@@ -10,7 +10,8 @@ const state = {
   NewCN: [],
   NewJP: [],
   NewKR: [],
-  NewEU: []
+  NewEU: [],
+  NowPlay: []
 }
 
 const mutations = {
@@ -33,6 +34,10 @@ const mutations = {
         break
     }
     state.type = info.type
+  },
+  //保存正在播放的音乐信息
+  SET_NOW_PLAY: (state, info) => {
+    state.NowPlay = info
   }
 }
 
@@ -49,6 +54,10 @@ const actions = {
         console.log(err);
       })
     })
+  },
+  //保存正在播放的音乐信息
+  setNowPlay({commit}, info) {
+    commit('SET_NOW_PLAY', info)
   }
 }
 

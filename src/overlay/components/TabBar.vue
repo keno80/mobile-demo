@@ -1,7 +1,7 @@
 <template>
-  <div class="playerWidgetBlock" v-if="playWidgetShow">
+  <div class="playerWidgetBlock" v-if="playWidgetShow" @click="showInfo">
     <div class="widgetImg">
-      <img :src="playWidgetInfo.songImg + '?param=50y50'">
+      <img :src="playWidgetInfo.songImg + '?param=46y46'">
     </div>
     <div class="widgetInfo">
       <p class="name">{{playWidgetInfo.songName}}</p>
@@ -21,10 +21,12 @@
         playWidgetShow: state => state.playerWidget.isShow,
       })
     },
-    mounted() {
-      console.log(this.playWidgetInfo);
-    },
-    methods: {}
+    methods: {
+      showInfo() {
+        console.log(this.$store.state.playerWidget.info);
+        console.log(this.playWidgetInfo);
+      }
+    }
   }
 </script>
 
@@ -33,7 +35,7 @@
     position: fixed;
     width: 100%;
     bottom: 0;
-    height: 60px;
+    height: 52px;
     background: #ffffff;
     box-shadow: 0 -2px 10px -1px #c9edff;
 
@@ -44,7 +46,7 @@
       float: left;
 
       img {
-        margin-top: 10px;
+        margin-top: 6.6px;
         border-radius: 4px;
       }
     }
@@ -53,16 +55,16 @@
       margin: 10px 0 10px 65px;
 
       .name {
-        line-height: 0.7;
-        color: #282828;
+        line-height: 0.3;
+        color: #525252;
         font-size: 14px;
       }
 
       .singer {
         margin: 0;
-        font-size: 12px;
+        font-size: 10px;
         color: #939393;
-        line-height: 0.6;
+        line-height: 1.1;
       }
     }
   }
