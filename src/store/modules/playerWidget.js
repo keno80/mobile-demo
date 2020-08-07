@@ -9,6 +9,7 @@ const state = {
   ShowPlayer: false,
   isPaused: false,
   audioRefs: null,
+  playerRefs: null,
   nowList: []
 }
 
@@ -38,6 +39,14 @@ const mutations = {
   //保存当前音乐的audio dom
   SAVE_AUDIO_REFS: (state, data) => {
     state.audioRefs = data
+  },
+  //保存音乐播放页面的dom
+  SAVE_PLAYER_REFS: (state, data) => {
+    state.playerRefs = data
+  },
+  //使用保存的音乐播放的dom为界面赋值
+  FILL_PLAYER_PAGE_DATA: (state, id) => {
+    state.playerRefs.refreshData(id)
   },
   //通过小部件播放暂停音乐
   CHANGE_PLAY_STATUS: (state, type) => {
@@ -73,6 +82,12 @@ const actions = {
   },
   saveAudioRefs({commit}, data) {
     commit('SAVE_AUDIO_REFS', data)
+  },
+  savePlayerRefs({commit}, data) {
+    commit('SAVE_PLAYER_REFS', data)
+  },
+  fillPlayerPageData({commit}, id) {
+    commit('FILL_PLAYER_PAGE_DATA', id)
   },
   changePlayStatus({commit}, type) {
     commit('CHANGE_PLAY_STATUS', type)

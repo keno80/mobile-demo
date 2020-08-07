@@ -12,9 +12,11 @@
           <van-cell v-for="item in songList" :key="item.id">
             <img v-lazy="item.album.picUrl + '?param=50y50'" class="songPic">
             <div class="songBlock" @click="showMusic(item)">
-              <p class="songTitle">{{item.name}}</p>
+              <p class="songTitle" :class="{'now_play': item.id === NowPlay.id}">{{item.name}}</p>
               <br/>
-              <div class="songInfo">{{item.artist}} - {{item.album.name}}</div>
+              <div class="songInfo" :class="{'now_play_singer': item.id === NowPlay.id}">{{item.artist}} -
+                {{item.album.name}}
+              </div>
             </div>
           </van-cell>
         </van-list>
@@ -119,6 +121,7 @@
               songShow: this.songShow
             })
             this.$nextTick(() => {
+              this.$store.dispatch('playerWidget/savePlayerRefs', this.$refs.player)
               this.$refs.player.refreshData(item.id)
             })
           } else {
