@@ -8,6 +8,7 @@ const getters = {
   NowPlay: state => state.newSongList.NowPlay,
   playWidgetInfo: state => state.playerWidget.info,
   playWidgetShow: state => state.playerWidget.isShow,
+  ShowPlayer: state => state.playerWidget.ShowPlayer
 }
 
 export default getters

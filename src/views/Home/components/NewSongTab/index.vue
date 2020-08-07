@@ -21,7 +21,7 @@
       </van-tab>
     </van-tabs>
 
-    <van-popup v-model="songShow" position="bottom" round close-icon="close" closeable :style="{height: '88%'}"
+    <van-popup v-model="show" position="bottom" round close-icon="close" closeable :style="{height: '88%'}"
                align="center" @close="refreshWidgetStatus" ref="playerPop">
       <player :playerInfo="playerInfo" ref="player"/>
     </van-popup>
@@ -79,8 +79,19 @@
         NewJP: state => state.newSongList.NewJP,
         NewKR: state => state.newSongList.NewKR,
         NewEU: state => state.newSongList.NewEU,
-        NowPlay: state => state.newSongList.NowPlay
-      })
+        NowPlay: state => state.newSongList.NowPlay,
+        ShowPlayer: state => state.playerWidget.ShowPlayer
+      }),
+      show: {
+        get() {
+          return this.ShowPlayer
+        },
+        set(val) {
+          //关闭播放页，将状态存储到vuex
+          this.$store.dispatch('playerWidget/toggleOpenPlayer', 'close')
+          this.songShow = val
+        }
+      }
     },
     methods: {
       async onLoad() {
@@ -97,7 +108,7 @@
         song.getMusicRealUrl(item.id).then(res => {
           if (res.data.data[0].url !== null) {
             this.playerInfo = item
-            this.songShow = true
+            this.$store.dispatch('playerWidget/toggleOpenPlayer', 'list')
             //vuex保存当前正在播放的音乐信息
             this.$store.dispatch('newSongList/setNowPlay', this.playerInfo)
             //为播放小部件赋值

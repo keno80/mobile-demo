@@ -1,5 +1,5 @@
 <template>
-  <div class="playerWidgetBlock" v-if="playWidgetShow" @click="showInfo">
+  <div class="playerWidgetBlock" v-if="playWidgetShow" @click="showPlayer">
     <div class="widgetImg">
       <img :src="playWidgetInfo.songImg + '?param=46y46'">
     </div>
@@ -22,9 +22,8 @@
       })
     },
     methods: {
-      showInfo() {
-        console.log(this.$store.state.playerWidget.info);
-        console.log(this.playWidgetInfo);
+      showPlayer() {
+        this.$store.dispatch('playerWidget/toggleOpenPlayer', 'widget')
       }
     }
   }

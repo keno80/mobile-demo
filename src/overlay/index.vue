@@ -1,19 +1,19 @@
 <template>
   <div class="main-container">
     <app-main/>
-    <tab-bar/>
+    <bottom-player-widget/>
   </div>
 </template>
 
 <script>
-  import {NavBar, TabBar, AppMain} from "./components";
+  import {NavBar, BottomPlayerWidget, AppMain} from "./components";
 
   export default {
     name: "index",
     components: {
       AppMain,
       NavBar,
-      TabBar
+      BottomPlayerWidget
     }
   }
 </script>

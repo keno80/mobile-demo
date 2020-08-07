@@ -5,17 +5,32 @@
 
 const state = {
   isShow: false,
-  info: {}
+  info: {},
+  ShowPlayer: false
 }
 
 const mutations = {
   /**
    * 设置小部件显示状态
-   * 当 status.isPlay 为 true 和 status.songShow 为false时才显示
    * **/
   SET_PLAYER_INFO: (state, info) => {
     state.info = info.info
     state.isShow = info.songShow !== true;
+  },
+  /**
+   * 点击播放小部件显示播放页
+   * **/
+  TOGGLE_OPEN_PLAYER: (state, type) => {
+    switch (type) {
+      case 'list':
+        state.ShowPlayer = true
+        break;
+      case 'close':
+        state.ShowPlayer = false
+        break
+      case 'widget':
+        state.ShowPlayer = true
+    }
   }
 }
 
@@ -27,6 +42,9 @@ const actions = {
       singer: data.info.artist,
     }
     commit('SET_PLAYER_INFO', {info, songShow: data.songShow})
+  },
+  toggleOpenPlayer({commit}, type) {
+    commit('TOGGLE_OPEN_PLAYER', type)
   }
 }
 
